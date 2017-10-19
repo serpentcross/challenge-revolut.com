@@ -26,58 +26,55 @@ public class ProcessingService {
         int id = 0;
 
         TransferTask transferTask = new TransferTask(++id, new Date(), senderId, accountId, amount, receiverPhoneNumber, TransactionResult.PND);
+
         searchForSender(transferTask);
 
         return transactionResult;
     }
 
     private void searchForSender(TransferTask transferTask) {
+        Customer foundSender = customers.stream()
+                .filter(sender -> transferTask.getSenderId() == sender.getId())
+                .findFirst()
+                .orElseThrow(() -> new PaymentException(TransactionResult.SNF.toString()));
 
-        customers.forEach(foundSender -> {
-            if (foundSender.getId() == transferTask.getSenderId()) {
-                searchForSenderAccount(transferTask, foundSender);
-            }
-        });
-
-        throw new PaymentException(TransactionResult.SNF.toString());
+        searchForSenderAccount(transferTask, foundSender);
     }
 
     private void searchForSenderAccount(TransferTask transferTask, Customer customerSender) {
-        customerSender.getAccounts().forEach(foundSenderAccount -> {
-            if (foundSenderAccount.getAccountNumber() == transferTask.getAccountId()) {
-                checkAccountBallance(transferTask, customerSender, foundSenderAccount);
-            }
-        });
+        Account foundSenderAccount = customerSender.getAccounts().stream()
+                .filter(sAccount -> transferTask.getAccountId() == sAccount.getAccountNumber())
+                .findFirst()
+                .orElseThrow(() -> new PaymentException(TransactionResult.SNE.toString()));
 
-        throw new PaymentException(TransactionResult.SNE.toString());
+        checkAccountBallance(transferTask, customerSender, foundSenderAccount);
     }
 
     private void checkAccountBallance(TransferTask transferTask, Customer customerSender, Account senderAccount) {
         if (senderAccount.getBalance() >= transferTask.getTransferAmount()) {
             searchForReceiver(transferTask, customerSender, senderAccount);
+        } else {
+            throw new PaymentException(TransactionResult.NEF.toString());
         }
-
-        throw new PaymentException(TransactionResult.NEF.toString());
     }
 
     private void searchForReceiver(TransferTask transferTask, Customer customerSender, Account senderAccount) {
-        customers.forEach(foundReceiver -> {
-            if (foundReceiver.getPhone().equals(transferTask.getReceiverPhoneNumber())) {
-                searchForReceiverAccount(transferTask, customerSender, senderAccount, foundReceiver);
-            }
-        });
+        Customer foundReceiver = customers.stream()
+                .filter(receiver -> transferTask.getReceiverPhoneNumber().equals(receiver.getPhone()))
+                .findFirst()
+                .orElseThrow(() -> new PaymentException(TransactionResult.RNF.toString()));
 
-        throw new PaymentException(TransactionResult.RNF.toString());
+        searchForReceiverAccount(transferTask, customerSender, senderAccount, foundReceiver);
     }
 
     private void searchForReceiverAccount(TransferTask transferTask, Customer customerSender, Account senderAccount, Customer customerReceiver) {
-        customerReceiver.getAccounts().forEach(foundReceiverAccount -> {
-            if (foundReceiverAccount.isMain()) {
-                transferFunds(transferTask, customerSender, senderAccount, customerReceiver, foundReceiverAccount);
-            }
-        });
 
-        throw new PaymentException(TransactionResult.RNE.toString());
+        Account foundReceiverAccount = customerReceiver.getAccounts().stream()
+                .filter(Account::isMain)
+                .findFirst()
+                .orElseThrow(() -> new PaymentException(TransactionResult.RNE.toString()));
+
+        transferFunds(transferTask, customerSender, senderAccount, customerReceiver, foundReceiverAccount);
     }
 
     private void transferFunds(TransferTask transferTask, Customer customerSender, Account senderAccount, Customer customerReceiver, Account receiverAccount) {
@@ -87,9 +84,9 @@ public class ProcessingService {
         if (!senderAccount.getCurrency().equals(receiverAccount.getCurrency())) {
             try {
                 transferAmount = CurrencyConverter.convertCurrency(transferTask.getTransferAmount(), senderAccount, receiverAccount);
+            } catch (MalformedURLException ex) {
+                ex.printStackTrace();
             } catch (TransformerException e) {
-                e.printStackTrace();
-            } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
         }
@@ -101,7 +98,7 @@ public class ProcessingService {
         transferTask.setTransactionResult(TransactionResult.SCS);
 
         customers.add(commitTransaction(transferTask, customerSender, senderAccount, senderBallance));
-        customers.add(commitTransaction(transferTask, customerReceiver, receiverAccount, receiverBallance));
+        customers.add(commitTransaction(transferTask, customerReceiver, receiverAccount, Double.parseDouble(String.format("%.2f", receiverBallance))));
 
         FeedReader.setCustomers(customers);
 

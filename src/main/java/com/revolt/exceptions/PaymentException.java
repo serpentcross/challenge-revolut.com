@@ -15,5 +15,7 @@ public class PaymentException extends RuntimeException {
         return exceptionMessage;
     }
 
-
+    public void setExceptionMessage(String exceptionMessage) {
+        this.exceptionMessage = exceptionMessage;
+    }
 }
