@@ -9,7 +9,8 @@ import java.util.Date;
 
 public class Account {
 
-    public Account(Currency currency, double balance) {
+    public Account(int accountNumber, Currency currency, double balance) {
+        this.accountNumber = accountNumber;
         this.currency = currency;
         this.balance = balance;
         this.creationDate = new Date();
@@ -19,9 +20,7 @@ public class Account {
     @Getter @Setter private Currency currency;
     @Getter @Setter private Date creationDate;
     @Getter @Setter private double balance;
-    @Getter @Setter private boolean isActive;
     @Getter @Setter private boolean isMain;
-
 
     @Override
     public boolean equals(Object o) {

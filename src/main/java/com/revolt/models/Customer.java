@@ -3,6 +3,7 @@ package com.revolt.models;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
 
@@ -15,6 +16,7 @@ public class Customer {
         this.phone = phone;
         this.birthDate = birthDate;
         this.accounts = accounts;
+        this.transactionHistory = new ArrayList<>();
     }
 
     @Getter @Setter private int id;
@@ -23,6 +25,7 @@ public class Customer {
     @Getter @Setter private String phone;
     @Getter @Setter private Date birthDate;
     @Getter @Setter private Set<Account> accounts;
+    @Getter @Setter private ArrayList<TransferTask> transactionHistory;
 
     @Override
     public boolean equals(Object o) {

@@ -2,9 +2,9 @@ package com.revolt.enums;
 
 public enum Currency {
 
-    GBP("Great Britain pounds"),
+    GBP("Great Britain Pounds"),
     RUB("Russian rubles"),
-    USD("United States");
+    USD("United States Dollars");
 
     Currency(String description) {
         this.description = description;

@@ -2,67 +2,74 @@
   {
     "name"      : "Peter",
     "surname"   : "Parker",
-    "phone"     : "+79047484839",
+    "phone"     : "9047484839",
     "birthDate" : "1990-02-13",
 
     "accounts": [
       {
-        "currency"    : "USD",
-        "ballance"    : "100"
-      },
-
-      {
-        "currency"    : "RUB",
-        "ballance"    : "290"
+        "currency"    : "GBP",
+        "ballance"    : "3000"
       }
     ]
   },
   {
     "name"      : "Klark",
     "surname"   : "Kent",
-    "phone"     : "+79267493010",
+    "phone"     : "9267493010",
     "birthDate" : "1989-04-31",
 
     "accounts": [
       {
         "currency"    : "USD",
         "ballance"    : "60"
+      },
+      {
+        "currency"    : "RUB",
+        "ballance"    : "3290"
+      },
+      {
+        "currency"    : "GBP",
+        "ballance"    : "290"
       }
     ]
   },
   {
     "name"      : "Tony",
     "surname"   : "Stark",
-    "phone"     : "+79224940293",
+    "phone"     : "9224940293",
     "birthDate" : "1995-03-29",
 
     "accounts": [
       {
         "currency"    : "RUB",
         "ballance"    : "800"
+      },
+      {
+        "currency"    : "GBP",
+        "ballance"    : "2190"
+      },
+      {
+        "currency"    : "USD",
+        "ballance"    : "390"
       }
     ]
   },
   {
     "name": "Bruce",
     "surname": "Wayne",
-    "phone": "+79769393020",
+    "phone": "9769393020",
     "birthDate": "1990-02-13",
     "accounts": [
       {
         "currency": "USD",
         "ballance": "2000"
-      },
-      {
-        "currency": "USD",
-        "ballance": "5000"
       }
     ]
   },
   {
     "name": "Steve",
     "surname": "Rogers",
-    "phone": "+79299391110",
+    "phone": "9299391110",
     "birthDate": "1950-04-15",
     "accounts": [
       {
@@ -72,13 +79,17 @@
       {
         "currency": "RUB",
         "ballance": "40"
+      },
+      {
+        "currency"    : "USD",
+        "ballance"    : "1500"
       }
     ]
   },
   {
     "name": "Flash",
     "surname": "Tompson",
-    "phone": "+79769393020",
+    "phone": "9769391110",
     "birthDate": "1987-11-23",
     "accounts": [
       {

@@ -2,22 +2,24 @@ package com.revolt.enums;
 
 public enum TransactionResult {
 
-    SUCCESS("Transaction successful completed"),
-    FAILRULE("There were errors during transaction");
+    SCS("Transaction has been successfuly completed."),
+    PND("Transaction is in progress."),
+    FRL("There were unknown errors during transaction"),
+    SNF("Sender not found"),
+    SNE("Sender account does not exist"),
+    NEF("Not enough funds"),
+    RNF("Receiver not found"),
+    RNE("Receiver account does not exist");
 
-    TransactionResult(String result) {
-        this.result = result;
+    private String message;
+
+    private TransactionResult(String message) {
+        this.message = message;
     }
 
-    private String result;
-
-    public String getResult() {
-        return result;
+    @Override
+    public String toString(){
+        return message;
     }
-
-    public void setResult(String result) {
-        this.result = result;
-    }
-
-
 }
+
