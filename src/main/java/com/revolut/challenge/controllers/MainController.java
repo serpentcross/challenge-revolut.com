@@ -1,9 +1,9 @@
-package com.revolt.controllers;
+package com.revolut.challenge.controllers;
 
-import com.revolt.exceptions.PaymentException;
-import com.revolt.models.Customer;
-import com.revolt.services.ProcessingService;
-import com.revolt.utils.FeedReader;
+import com.revolut.challenge.exceptions.PaymentException;
+import com.revolut.challenge.models.Customer;
+import com.revolut.challenge.services.ProcessingService;
+import com.revolut.challenge.utils.FeedReader;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -22,8 +22,8 @@ public class MainController {
 
     @GET
     @Path("customer/{id}")
-    @Produces(MediaType.TEXT_HTML)
-    public String bankInfo(@PathParam("id") int id) {
+    @Produces(MediaType.TEXT_PLAIN)
+    public String customerInfo(@PathParam("id") int id) {
 
         String result = "Unfortunatelly, nothing was found. Please try again. Thank you.";
         Set<Customer> customers = FeedReader.getCustomers();
@@ -38,7 +38,7 @@ public class MainController {
 
     @GET
     @Path("/transfer")
-    @Produces(MediaType.TEXT_HTML)
+    @Produces(MediaType.TEXT_PLAIN)
     public Response makeTransfer(@QueryParam("senderId") int senderId, @QueryParam("accountId") int accountId, @QueryParam("amount") double amount, @QueryParam("phone") String receiverPhoneNumber) {
         try {
             return Response.ok(processingService.initiateTransfer(senderId, accountId, amount, receiverPhoneNumber)).build();

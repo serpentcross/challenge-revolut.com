@@ -1,14 +1,12 @@
-package com.revolt;
+package com.revolut.challenge;
 
-import com.revolt.utils.FeedReader;
-import com.revolt.utils.RatesExtractor;
+import com.revolut.challenge.controllers.MainController;
+import com.revolut.challenge.utils.FeedReader;
+import com.revolut.challenge.utils.RatesExtractor;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.servlet.ServletContainer;
 
 import java.io.File;
 
@@ -28,17 +26,24 @@ public class App {
             System.exit(0);
         }
 
-        ResourceConfig config = new ResourceConfig();
-        config.packages("com.revolt");
-        ServletHolder servlet = new ServletHolder(new ServletContainer(config));
+        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+
+        context.setContextPath("/");
 
         Server server = new Server(2222);
-        ServletContextHandler context = new ServletContextHandler(server, "/*");
-        context.addServlet(servlet, "/*");
+
+        server.setHandler(context);
+
+        ServletHolder servletHolder = context.addServlet(org.glassfish.jersey.servlet.ServletContainer.class, "/*");
+
+        servletHolder.setInitOrder(0);
+        servletHolder.setInitParameter("jersey.config.server.provider.classnames", MainController.class.getCanonicalName());
 
         try {
             server.start();
             server.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         } finally {
             server.destroy();
         }

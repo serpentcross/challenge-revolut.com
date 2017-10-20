@@ -1,6 +1,6 @@
-package com.revolt.utils;
+package com.revolut.challenge.utils;
 
-import com.revolt.enums.Currency;
+import com.revolut.challenge.enums.Currency;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -46,7 +46,7 @@ public class RatesExtractor {
             e.printStackTrace();
         }
 
-        if (!ratesWereExtracted) { // let's use a dummy data if something goes wrong with remote rates;
+        if (!ratesWereExtracted) {          // let's use a dummy data if something goes wrong with remote rates;
             rates.put(Currency.GBP, 80.1);
             rates.put(Currency.USD, 57.7);
         }

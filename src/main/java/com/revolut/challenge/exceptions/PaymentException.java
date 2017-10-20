@@ -1,4 +1,4 @@
-package com.revolt.exceptions;
+package com.revolut.challenge.exceptions;
 
 public class PaymentException extends RuntimeException {
 
@@ -12,7 +12,7 @@ public class PaymentException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return exceptionMessage;
+        return "Transaction Failed! " + exceptionMessage;
     }
 
     public void setExceptionMessage(String exceptionMessage) {

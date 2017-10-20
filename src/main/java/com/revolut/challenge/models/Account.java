@@ -1,6 +1,6 @@
-package com.revolt.models;
+package com.revolut.challenge.models;
 
-import com.revolt.enums.Currency;
+import com.revolut.challenge.enums.Currency;
 
 import lombok.Getter;
 import lombok.Setter;

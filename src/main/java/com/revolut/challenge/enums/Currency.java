@@ -1,4 +1,4 @@
-package com.revolt.enums;
+package com.revolut.challenge.enums;
 
 public enum Currency {
 

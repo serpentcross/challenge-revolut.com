@@ -1,4 +1,4 @@
-package com.revolt.utils;
+package com.revolut.challenge.utils;
 
 import java.text.SimpleDateFormat;
 

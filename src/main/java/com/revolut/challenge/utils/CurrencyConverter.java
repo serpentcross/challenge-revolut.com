@@ -1,9 +1,10 @@
-package com.revolt.utils;
+package com.revolut.challenge.utils;
 
-import com.revolt.enums.Currency;
-import com.revolt.models.Account;
+import com.revolut.challenge.enums.Currency;
+import com.revolut.challenge.models.Account;
 
 import javax.xml.transform.TransformerException;
+
 import java.net.MalformedURLException;
 
 public class CurrencyConverter {

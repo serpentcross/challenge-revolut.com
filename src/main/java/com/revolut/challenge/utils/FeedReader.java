@@ -1,4 +1,13 @@
-package com.revolt.utils;
+package com.revolut.challenge.utils;
+
+import com.revolut.challenge.enums.Currency;
+import com.revolut.challenge.models.Account;
+import com.revolut.challenge.models.Customer;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.FileReader;
@@ -9,16 +18,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
-
-import com.revolt.enums.Currency;
-
-import com.revolt.models.Account;
-import com.revolt.models.Customer;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 public class FeedReader {
 

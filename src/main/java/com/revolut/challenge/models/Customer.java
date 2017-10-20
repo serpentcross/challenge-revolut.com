@@ -1,4 +1,4 @@
-package com.revolt.models;
+package com.revolut.challenge.models;
 
 import lombok.Getter;
 import lombok.Setter;

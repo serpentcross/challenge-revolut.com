@@ -1,35 +1,31 @@
-package com.revolt.services;
+package com.revolut.challenge.services;
 
-import com.revolt.enums.TransactionResult;
-
-import com.revolt.exceptions.PaymentException;
-import com.revolt.models.Account;
-import com.revolt.models.Customer;
-import com.revolt.models.TransferTask;
-
-import com.revolt.utils.CurrencyConverter;
-import com.revolt.utils.FeedReader;
+import com.revolut.challenge.enums.TransactionResult;
+import com.revolut.challenge.exceptions.PaymentException;
+import com.revolut.challenge.models.Account;
+import com.revolut.challenge.models.Customer;
+import com.revolut.challenge.models.TransferTask;
+import com.revolut.challenge.utils.CurrencyConverter;
+import com.revolut.challenge.utils.FeedReader;
 
 import javax.xml.transform.TransformerException;
 
 import java.net.MalformedURLException;
+
 import java.util.Date;
 import java.util.Set;
 
 public class ProcessingService {
 
     private Set<Customer> customers = FeedReader.getCustomers();
-    private String transactionResult = TransactionResult.PND.toString();
+
+    private TransferTask transferTask;
 
     public String initiateTransfer(int senderId, int accountId, double amount, String receiverPhoneNumber) {
 
-        int id = 0;
-
-        TransferTask transferTask = new TransferTask(++id, new Date(), senderId, accountId, amount, receiverPhoneNumber, TransactionResult.PND);
-
+        transferTask = new TransferTask(new Date(), senderId, accountId, amount, receiverPhoneNumber, TransactionResult.PND);
         searchForSender(transferTask);
-
-        return transactionResult;
+        return transferTask.toString();
     }
 
     private void searchForSender(TransferTask transferTask) {
@@ -94,13 +90,17 @@ public class ProcessingService {
         double senderBallance = senderAccount.getBalance() - transferTask.getTransferAmount();
         double receiverBallance = receiverAccount.getBalance() + transferAmount;
 
-        transactionResult = TransactionResult.SCS.toString();
-        transferTask.setTransactionResult(TransactionResult.SCS);
-
         customers.add(commitTransaction(transferTask, customerSender, senderAccount, senderBallance));
         customers.add(commitTransaction(transferTask, customerReceiver, receiverAccount, Double.parseDouble(String.format("%.2f", receiverBallance))));
 
         FeedReader.setCustomers(customers);
+
+        transferTask.setId(customerSender.getTransactionHistory().size());
+        transferTask.setAccountId(senderAccount.getAccountNumber());
+        transferTask.setCurrency(senderAccount.getCurrency());
+        transferTask.setRemainedBallance(senderBallance);
+        transferTask.setReceiverPhoneNumber(customerReceiver.getPhone());
+        transferTask.setTransactionResult(TransactionResult.SCS);
 
     }
 

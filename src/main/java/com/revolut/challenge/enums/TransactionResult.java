@@ -1,8 +1,8 @@
-package com.revolt.enums;
+package com.revolut.challenge.enums;
 
 public enum TransactionResult {
 
-    SCS("Transaction has been successfuly completed."),
+    SCS("Transaction has been successfully completed."),
     PND("Transaction is in progress."),
     FRL("There were unknown errors during transaction"),
     SNF("Sender not found"),

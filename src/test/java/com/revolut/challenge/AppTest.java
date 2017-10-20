@@ -1,4 +1,4 @@
-package com.revolt;
+package com.revolut.challenge;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

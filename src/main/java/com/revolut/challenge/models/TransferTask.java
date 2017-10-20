@@ -1,20 +1,19 @@
-package com.revolt.models;
+package com.revolut.challenge.models;
 
-import com.revolt.enums.TransactionResult;
+import com.revolut.challenge.enums.Currency;
+import com.revolut.challenge.enums.TransactionResult;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-
 import java.util.Date;
 
 public class TransferTask implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public TransferTask(int id, Date transactionDate, int senderId, int accountId, double transferAmount, String receiverPhoneNumber, TransactionResult transactionResult) {
-        this.id = id;
+    public TransferTask(Date transactionDate, int senderId, int accountId, double transferAmount, String receiverPhoneNumber, TransactionResult transactionResult) {
         this.transactionDate = transactionDate;
         this.senderId = senderId;
         this.accountId = accountId;
@@ -28,7 +27,9 @@ public class TransferTask implements Serializable {
     @Getter @Setter private int senderId;
     @Getter @Setter private int accountId;
     @Getter @Setter private double transferAmount;
+    @Getter @Setter private double remainedBallance;
     @Getter @Setter private String receiverPhoneNumber;
+    @Getter @Setter private Currency currency;
     @Getter @Setter private TransactionResult transactionResult;
 
     @Override
@@ -54,5 +55,19 @@ public class TransferTask implements Serializable {
         temp = Double.doubleToLongBits(transferAmount);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return  "Transaction # " + id + " | " + transactionDate + "\n" +
+                "-----------------------------------------------------------------------" + "\n" +
+                "account: " + accountId + "\n" +
+                "balance: " + remainedBallance + "\n" +
+                "-----------------------------------------------------------------------" + "\n" +
+                "transfer amount: " + transferAmount + "\n" +
+                "currency: " + currency.toString() + "\n"+
+                "receiver: " + receiverPhoneNumber + "\n" +
+                "-----------------------------------------------------------------------" + "\n" +
+                "transaction result: " + transactionResult;
     }
 }
