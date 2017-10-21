@@ -112,6 +112,7 @@ public class ProcessingService {
                 customer.getTransactionHistory().add(transferTask);
             }
         });
+
         return customer;
     }
 }

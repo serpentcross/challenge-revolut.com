@@ -41,7 +41,6 @@ public class FeedReader {
         } else {
 
             int customerId = 0;
-            int accountNumber = 0;
 
             for (Object singleCustomer : jsonFeed) {
 
@@ -68,7 +67,7 @@ public class FeedReader {
                 }
 
                 JSONArray accountsArray = (JSONArray) customersJSON.get("accounts");
-
+                int accountNumber = 0;
                 for (Object singleAccount : accountsArray) {
 
                     ++accountNumber;

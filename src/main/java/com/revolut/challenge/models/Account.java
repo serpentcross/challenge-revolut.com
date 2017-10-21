@@ -41,4 +41,14 @@ public class Account {
         result = 31 * result + creationDate.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return  "\n" +
+                "account #" + accountNumber + "|" + "creation date: " + creationDate + "\n" +
+                "......................................................................." + "\n" +
+                "balance: " + balance + "\n" +
+                "currency: " + currency + "\n" +
+                "......................................................................." + "\n";
+    }
 }

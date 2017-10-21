@@ -14,11 +14,14 @@ public class TransferTask implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public TransferTask(Date transactionDate, int senderId, int accountId, double transferAmount, String receiverPhoneNumber, TransactionResult transactionResult) {
+        this.id = 0;
         this.transactionDate = transactionDate;
         this.senderId = senderId;
         this.accountId = accountId;
         this.transferAmount = transferAmount;
+        this.remainedBallance = 0;
         this.receiverPhoneNumber = receiverPhoneNumber;
+        this.currency = Currency.RUB;
         this.transactionResult = transactionResult;
     }
 
@@ -59,7 +62,8 @@ public class TransferTask implements Serializable {
 
     @Override
     public String toString() {
-        return  "Transaction # " + id + " | " + transactionDate + "\n" +
+        return  "\n" +
+                "Transaction # " + id + " | " + transactionDate + "\n" +
                 "-----------------------------------------------------------------------" + "\n" +
                 "account: " + accountId + "\n" +
                 "balance: " + remainedBallance + "\n" +
@@ -68,6 +72,6 @@ public class TransferTask implements Serializable {
                 "currency: " + currency.toString() + "\n"+
                 "receiver: " + receiverPhoneNumber + "\n" +
                 "-----------------------------------------------------------------------" + "\n" +
-                "transaction result: " + transactionResult;
+                "result: " + transactionResult + "\n";
     }
 }
