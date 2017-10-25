@@ -1,5 +1,7 @@
 package com.revolut.challenge;
 
+import com.revolut.challenge.constants.EndPoints;
+import com.revolut.challenge.constants.ServerConfig;
 import com.revolut.challenge.controllers.MainController;
 import com.revolut.challenge.utils.FeedReader;
 import com.revolut.challenge.utils.RatesExtractor;
@@ -11,6 +13,10 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import java.io.File;
 
 public class App {
+
+    private static Server server;
+    private static ServletContextHandler context;
+    private static ServletHolder servletHolder;
 
     public static void main( String[] args ) throws Exception {
 
@@ -26,16 +32,18 @@ public class App {
             System.exit(0);
         }
 
-        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        serverStart();
+    }
 
-        context.setContextPath("/");
+    private static void serverStart() throws Exception {
 
-        Server server = new Server(2222);
+        context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        context.setContextPath(EndPoints.CONTEXT_PATH);
 
+        server = new Server(ServerConfig.SERVER_PORT);
         server.setHandler(context);
 
-        ServletHolder servletHolder = context.addServlet(org.glassfish.jersey.servlet.ServletContainer.class, "/*");
-
+        servletHolder = context.addServlet(org.glassfish.jersey.servlet.ServletContainer.class, "/*");
         servletHolder.setInitOrder(0);
         servletHolder.setInitParameter("jersey.config.server.provider.classnames", MainController.class.getCanonicalName());
 
@@ -45,7 +53,11 @@ public class App {
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
-            server.destroy();
+            serverStop();
         }
+    }
+
+    private static void serverStop() {
+        server.destroy();
     }
 }
