@@ -23,6 +23,13 @@ public class MainController {
     private ProcessingService processingService = new ProcessingService();
 
     @GET
+    @Path(EndPoints.CONTEXT_PATH)
+    @Produces(MediaType.TEXT_PLAIN)
+    public String greetings() {
+        return "Hello! Welcome to testing service!";
+    }
+
+    @GET
     @Path(EndPoints.CUSTOMER)
     @Produces(MediaType.TEXT_PLAIN)
     public String customerInfo(@QueryParam(Parameters.ID) int id) {
