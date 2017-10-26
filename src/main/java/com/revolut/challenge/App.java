@@ -10,40 +10,30 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
+import javax.xml.transform.TransformerException;
+
 import java.io.File;
+
+import java.net.MalformedURLException;
 
 public class App {
 
     private static Server server;
-    private static ServletContextHandler context;
-    private static ServletHolder servletHolder;
 
     public static void main( String[] args ) throws Exception {
-
-        RatesExtractor.getActualRates();
-
-        File customersFeed;
-
-        try {
-            customersFeed = new File("data/customers.json");
-            FeedReader.parseFoundJSONfeed(customersFeed);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
-
+        loadData();
         serverStart();
     }
 
     private static void serverStart() throws Exception {
 
-        context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath(EndPoints.CONTEXT_PATH);
 
         server = new Server(ServerConfig.SERVER_PORT);
         server.setHandler(context);
 
-        servletHolder = context.addServlet(org.glassfish.jersey.servlet.ServletContainer.class, "/*");
+        ServletHolder servletHolder = context.addServlet(org.glassfish.jersey.servlet.ServletContainer.class, "/*");
         servletHolder.setInitOrder(0);
         servletHolder.setInitParameter("jersey.config.server.provider.classnames", MainController.class.getCanonicalName());
 
@@ -59,5 +49,18 @@ public class App {
 
     private static void serverStop() {
         server.destroy();
+    }
+
+    public static void loadData() throws TransformerException, MalformedURLException {
+
+        RatesExtractor.getActualRates();
+
+        try {
+            File customersFeed = new File("data/customers.json");
+            FeedReader.parseFoundJSONfeed(customersFeed);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
     }
 }
