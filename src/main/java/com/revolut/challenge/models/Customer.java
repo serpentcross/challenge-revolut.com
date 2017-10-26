@@ -1,10 +1,10 @@
 package com.revolut.challenge.models;
 
+import com.revolut.challenge.utils.InfoPrinter;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Set;
 
@@ -68,32 +68,10 @@ public class Customer {
     }
 
     private String printAccounts() {
-
-        String accInfo = "";
-
-        if (accounts.size() > 0) {
-            for (Account acc : accounts) {
-                accInfo += acc.toString();
-            }
-        } else {
-            accInfo = "No accounts found.";
-        }
-
-        return accInfo;
+        return InfoPrinter.printInfo(accounts, "No accounts were found.");
     }
 
     private String transactionHistory() {
-
-        String transactionInfo = "";
-
-        if (transactionHistory.size() > 0) {
-            for (TransferTask trt : transactionHistory) {
-                transactionInfo += trt.toString();
-            }
-        } else {
-            transactionInfo = "Transaction history is empty.";
-        }
-
-        return transactionInfo;
+        return InfoPrinter.printInfo(transactionHistory, "Transaction history is empty.");
     }
 }
